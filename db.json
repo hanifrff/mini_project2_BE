@@ -1,0 +1,32 @@
+{
+  "expense": [
+    {
+      "name": "jajan ciki",
+      "category": "jajan",
+      "nominal": 2000,
+      "id": 1,
+      "date": "2023-06-03T02:51:04.662Z"
+    },
+    {
+      "name": "jajan milo",
+      "category": "jajan",
+      "nominal": 3000,
+      "id": 2,
+      "date": "2023-06-06T02:51:22.381Z"
+    },
+    {
+      "name": "bayar listrik",
+      "category": "rumah",
+      "nominal": 20000,
+      "id": 3,
+      "date": "2023-06-06T02:55:52.130Z"
+    },
+    {
+      "name": "mesin cuci",
+      "category": "rumah",
+      "nominal": 35000,
+      "id": 4,
+      "date": "2023-06-06T03:26:16.654Z"
+    }
+  ]
+}
