@@ -2,6 +2,7 @@ const express = require("express");
 const dayjs = require("dayjs");
 const isBetween = require("dayjs/plugin/isBetween");
 const expenseRouter = require("./router/expense");
+const authRouter = require('./router/auth');
 const { logReqMiddleware } = require("./middleware/log");
 
 dayjs.extend(isBetween);
@@ -14,6 +15,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/expense", expenseRouter);
+app.use('/api/auth', authRouter)
 
 app.listen(PORT, () => {
   console.log(`express running on port :${PORT}`);
