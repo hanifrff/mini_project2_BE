@@ -1,5 +1,5 @@
 module.exports = {
-  register(req, res) {
+  async register(req, res) {
     const { username, email, phone, password, confirmPassword } = req.body;
     const { user } = require("../models");
 
@@ -14,32 +14,33 @@ module.exports = {
     // Lakukan check: tidak ada email yang boleh sama
     // Lakukan select * from users where email = 'denoxet582@larland.com';
     // Lakukan user.findAll
-    user
-      .findAll({
-        where: {
-          email: email,
-        },
-      })
-      .then((data) => {
+    try {
+      // findAll akan mengembalikan ARRAY
+      const data = await user.findAll({ where: { email: email } });
+      console.log(data)
+      if(data.length !== 0 ) {
         res.status(400).send({
-          message: "error: email has already taken",
+          message: "error: email has already been taken",
         });
+      }
 
-        
-      });
+      
+    } catch (e) {
+      // Lakukan error handling
+    }
 
     // Lakukan insert
-    user
-      .create({ username, email })
-      .then((data) => {
-        res.send({
-          message: "succsess",
-        });
-      })
-      .catch((e) => {
-        res.send({
-          message: "fail",
-        });
+    try {
+      await user.create({ username, email, phone, password });
+      res.status(200).send({
+        message: "succsess",
       });
+      return;
+    } catch (e) {
+      res.status(500).send({
+        message: "fail",
+        error: e,
+      });
+    }
   },
 };
