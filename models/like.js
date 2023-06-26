@@ -1,9 +1,7 @@
-// const { sequelize } = require("../models/index");
 "use strict";
 const { Model } = require("sequelize");
-
 module.exports = (sequelize, DataTypes) => {
-  class user extends Model {
+  class like extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -11,13 +9,13 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      user.hasMany(models.Blog, {
-        foreignKey: "authorID",
+      like.belongsTo(models.user, {
+        foreignKey: "userID",
         onDelete: "CASCADE",
         onUpdate: "CASCADE",
         hooks: true,
       });
-      user.hasMany(models.like, {
+      like.belongsTo(models.Blog, {
         foreignKey: "blogID",
         onDelete: "CASCADE",
         onUpdate: "CASCADE",
@@ -25,22 +23,15 @@ module.exports = (sequelize, DataTypes) => {
       });
     }
   }
-  user.init(
+  like.init(
     {
-      username: DataTypes.STRING,
-      email: DataTypes.STRING,
-      phoneNumber: DataTypes.STRING,
-      password: DataTypes.STRING,
-      imgProfile: DataTypes.STRING,
-      isVerified: DataTypes.BOOLEAN,
-      verifyToken: DataTypes.STRING,
-      imgProfile: DataTypes.STRING,
-      forgotToken: DataTypes.STRING,
+      userID: DataTypes.INTEGER,
+      blogID: DataTypes.INTEGER,
     },
     {
       sequelize,
-      modelName: "user",
+      modelName: "like",
     }
   );
-  return user;
+  return like;
 };

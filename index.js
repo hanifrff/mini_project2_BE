@@ -1,22 +1,28 @@
 const express = require("express");
-const dayjs = require("dayjs");
-const isBetween = require("dayjs/plugin/isBetween");
-const expenseRouter = require("./router/expense");
-const authRouter = require('./router/auth');
-const { logReqMiddleware } = require("./middleware/log");
+const db = require("./models");
+const router = require("./router");
 
-dayjs.extend(isBetween);
-const app = express();
 const PORT = 8000;
+const app = express();
+
 app.use(express.json());
-app.use(logReqMiddleware);
-app.get("/", (req, res) => {
-  res.send("welcome to my REST API");
-});
 
-app.use("/expense", expenseRouter);
-app.use('/api/auth', authRouter)
+// serving static files
+app.use("/static", express.static("Public"));
 
-app.listen(PORT, () => {
-  console.log(`express running on port :${PORT}`);
-});
+app.use("/api/auth", router.auth);
+app.use("/api/profile", router.profile);
+app.use("/api/blog", router.blog);
+app.use("/api", router.like);
+
+db.sequelize
+  .authenticate()
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`app start on localhost:${PORT}`);
+    });
+  })
+  .catch((error) => {
+    console.log("failed to connect DB");
+    console.error(error);
+  });
